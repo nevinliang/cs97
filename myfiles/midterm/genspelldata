@@ -1,0 +1,15 @@
+#!/bin/bash
+
+x=$1
+while [ $x -ge 1 ]
+do
+    printf "%s " $(sort -R linux.words | head -n 1)
+    x=$[$x-1]
+done
+y=$2
+while [ $y -ge 1 ]
+do
+    printf "%s " $(sort -R $3 | head -n 1)
+    y=$[$y-1]
+done
+printf "\n"

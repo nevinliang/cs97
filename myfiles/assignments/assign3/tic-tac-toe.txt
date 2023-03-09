@@ -1,0 +1,98 @@
+basic stuff:
+      - npx create-react-app {name}
+      - create index.css/js files
+      - npm start to run code in the file
+
+creating an element in react:
+return React.createElement('div', {className: 'shopping-list'},
+  React.createElement('h1', /* ... h1 children ... */),
+  React.createElement('ul', /* ... ul children ... */)
+);
+
+square, board, game (components)
+each component has different props:
+     - board passes a prop called value to square
+     - this.props.value
+render function occurs in each component
+components use states
+this.state kind of like priv vars in c++
+components have construtors too
+     - need to call super(props) always in the beginning
+     - looks like this:
+     - constructor(props) {
+		    super(props);
+		    this.state = {
+		      value: null,
+		    };
+		  }
+onClick={() => this.setState({value: 'X'})}
+
+need to declare shared state in parent component to collect data
+for multiple children
+	- this.state.squares
+split lines like this:
+<Square
+	value={this.state.squares[i]}
+	onClick={() => this.handleClick(i)}
+/>
+<button> for button in js
+coded like this
+	- <button className="square">
+        {this.props.value}
+      </button>
+create func handleClick in order for click to work
+immutability!!! make new objects w different parameters rather than
+change parameters of one object
+
+reason: re-render in react so easier for computer to tell when to do it
+Taking Turns:
+	- this.state.xIsNext flip it back and forth
+	- helper functions go at the end of the file
+	- can be called anywhere
+	- keyword let = variable instantiation
+check if turn is valid aka bad move so u can return early
+=========
+history!!
+slice() to copy squares every move 
+story all of this in array called history...
+
+history = [
+  // Before first move
+  {
+    squares: [
+      null, null, null,
+      null, null, null,
+      null, null, null,
+    ]
+  },
+  ...
+add history data to state.
+change all state vars to props in Board's render square
+
+update render funct:
+if (winner) {
+  status = 'Winner: ' + winner;
+} else {
+  status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+}
+
+concatenate new history onto old history to increase the var's "time"
+
+maps: 
+const numbers = [1, 2, 3];
+const doubled = numbers.map(x => x * 2); // [2, 4, 6]
+
+
+history.map((step, move) => {lakjdflskdjfsklafj})
+to do the history map (step and move)
+goes in <ol> tag
+
+<li key={user.id}>{user.name}: {user.taskCount} tasks left</li>
+make a jumpTo function
+so that we can jump to any value in history
+
+should add this to handleClick??
+history.slice(0, this.state.stepNumber + 1)
+render in game should be changed to render the stepNumber because
+then we can skip around
+

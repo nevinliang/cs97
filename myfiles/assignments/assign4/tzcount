@@ -1,0 +1,22 @@
+#!/usr/bin/python
+
+import sys
+
+data = sys.stdin.read()
+data = data.split('\n')
+
+tzs = {}
+nam = {}
+
+for line in data:
+    if line.startswith('Date:'):
+        tz = line[-5:]
+        key = int(tz)
+        if key in tzs.keys():
+            tzs[key] += 1
+        else:
+            nam[key] = tz
+            tzs[key] = 1
+
+for x in sorted(tzs):
+    sys.stdout.write(nam[x] + ' ' + str(tzs[x]) + '\n')

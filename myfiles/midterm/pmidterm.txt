@@ -1,0 +1,206 @@
+UCLA Computer Science 97 Practice Midterm 1 – Spring 2020
+=========================================================
+
+1. 
+	A hard link is a copy of a file that you have made. A symbolic link is more 
+	of a pointer to the original. An example of this is "Make a Copy" vs 
+	"Create Shortcut" in Windows or an "Alias" in Mac.
+
+2. 
+	Using POSIX mkdir will create two new directories, . and ..
+	.. is the path to the enclosing folder, while . is the current folder ???
+
+3. 
+	I expect the CPython interpreted Python code to be faster. A JavaScript 
+	engine might turn the, let's say, 200 coder-written instructions into 200 
+	lines of instructions, which, given a CPI of x, might take 200x cycles to 
+	finish. On the other hand, if we used a CPython interpreter, the 
+	optimization of the interpreter might combine some instructions, or even 
+	pipeline instructions so that it takes fewer cycles and time to finish
+
+4. 
+	a. 
+		cat temp|grep -E '^(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$'
+	b. 
+		cat temp|grep -E 
+		'^(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.
+		(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.
+		(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.
+		(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$'
+	c. 
+		ifconfig | sed -nE '/ 
+		(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.
+		(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.
+		(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.
+		(0|[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5]) 
+		/p' > ans.txt
+		??? Not entirely correct
+
+5.	
+	a. 
+		a, d
+	b. 
+		a is stored in /usr/bin, d is stored in current directory
+		QUESTION: 
+			is it /user/bin or /bin
+			ls and cat are stored in /bin
+			and cd and vi are stored in /user/bin
+			????
+	c. 
+		a has 1 argument, d has no arguments
+	d. 
+		a receives c as standard input, and ./d executable receives the output 
+		of a b < c as its input
+	e. 
+		the standard output is written to the file e
+
+6.
+	a. 
+		def py_spell(document, dictionary):
+			ans = set()
+			words = document.split(' ')
+			newwords = []
+			newdictionary = set()
+			for w in words:
+				x = ''
+				for c in w:
+					if c.isalpha():
+						x += c
+				newwords.append(x)
+			for w in dictionary:
+				x = ''
+				for c in w:
+					if c.isalpha():
+						x += c
+				newdictionary.add(x)
+			for w in newwords:
+				if w not in newdictionary:
+					ans.add(w)
+			return ans
+	b. ?????
+
+7. 
+	a. 
+		sh contains #!/bin/bash and then echo Hello, World! on the second line
+	b. 
+		it opens up the sh file. because emacs opens the emacs editor, and 420 
+		means it is readable
+	c. 
+		c does not work because the file is unwritable by chmod
+	d. 
+		d is creating a buffer named shell and runs a shel subprocess with 
+		input coming from and output going to the buffer
+	e. 
+		when line e is executed, it doesn't work because the file, from chmod 
+		420 was not given executable perms
+
+8. 
+	The benefits of using FijiOS is that the OS is very, very fast, and can 
+	handle many processes and run quickly for a certain number of instructions. 
+	However, the fact that he didn't make it POSIX-compliant means that when 
+	FijiOS takes off, software developers and FijiOS users cannot run certain 
+	applications on the operating system. He did not follow POSIX, so the API 
+	for many apps as well as command line shells and utility interfaces will 
+	not work. POSIX basically is a standard for software compatibility.
+
+9. 
+	git checkout -b feature/localization
+	touch strings.txt
+	git commit -m "added strings.txt" strings.txt
+
+10.
+	While very easy to implement, it is a waste of memory. not using half the 
+	data, while having terabytes of data, means the storage has to be twice the 
+	amount that you actually use. on the other hand, it is very safe and will 
+	not lose any data because if a copy on Monday night fails, you still have 
+	the backup in the original machine that has not been copied over and the 
+	copy process can be redone. however, this is not only a waste of time, 
+	there is a better way to do it. since her problem is mainly storage and not 
+	access speed, it is possible to use much more than 50% of the digital 
+	storage available and instead swap out what is needed when it is needed.
+
+UCLA Computer Science 97 midterm 1 - Sprint 2020
+
+1.
+	having the space between the * and .o means it deletes the file called .o
+	but ALSO DELETES EVERY OTHER FILE because * means anything.
+2.
+	a.
+		non-sensible permissions don't make sense, because it doesn't make sense 
+		to have the owner not be able to do something that the group can. the 
+		owner is literally just a special person in the group, and so everyone 
+		in the group can do a task that the owner can't if the perms is 467 or 
+		something. it only makes sense for the number for chmod to be in 
+		decreasing order digits.
+	b.
+		the first number can be any number from 0-7 and the second has to be
+		less than that number. the third has to be less than the second.
+		Case 1: No repeated numbers. In this case, there are 8 choose 3 or 56
+		possibilities.
+		Case 2: 1 set of repeated numbers. aab. 8 * 7 = 56 ways to choose the 
+		two distinct numbers, ex: 5 and 6. and two ways to arrange them: 655 or
+		665. aka 112 possibilities.
+		Case 3: all same number: aaa. This case has 8 possibilities. 
+		56 + 112 + 8 = 176 possibilities.
+3.
+	1) 
+		having multiple backups in the order v1, v2, v3, ..., vn is good for 
+		undo operations. however, what if you are currently at a version vk
+		and you decide to try one algorithm, pursuing down vka1 vka2 vka3.
+		You decide to go back and try a different algorithm, pursuing the branch
+		vkb1 vkb2 vkb3.... if you decide to look back at what you did in branch
+		a, you aren't able to because you only have 1 branch (that is what a 
+		backup is).
+	2) 
+		another problem with having only a backup is that if you wanted to 
+		compare the current code you are writing and editing to a version that
+		was a couple of versions ago, if you only have a backup file, you cannot
+		physically go back a couple of versions. even if you have multiple 
+		backups of every version that has succeeded or ran, you can't compare 
+		the two files because you don't have software to do that (difference 
+		checking, or git software), which is another reason why version control
+		is so powerful
+4.
+	a dangling symbolic link is pointing to something that the computer does not
+	know where it is or what has happened to it. (this can happen when you 
+	rename the file that the symbolic link was pointing to). by renaming the 
+	dangling symbolic link, the computer goes and finds the file it was supposed
+	to point to, and points the previously dangling symbolic link to the file, 
+	turning it into a non-dangling symbolic link
+5.
+	???
+6.
+	I think it prints out all the functions that is in the class C.
+	dict_items([
+	('__module__', '__main__'), 
+	('__init__', <function C.__init__ at 0x7fdef6d02550>), 
+	('M', <function C.M at 0x7fdef6d025e0>), 
+	('__str__', <function C.__str__ at 0x7fdef6d02670>), 
+	('__dict__', <attribute '__dict__' of 'C' objects>), 
+	('__weakref__', <attribute '__weakref__' of 'C' objects>), 
+	('__doc__', None)])
+
+	Not sure what the problem means by WHY though ???
+7. 
+	a.
+		sys.modules is a dictionary mapping names to modules in the sys library 
+		that have already been loaded. the dictionary itself does not exist
+		before sys is imported, and certainly no modules have been loaded yet
+	b. 
+		del sys.modules['time']
+		this deletes the module in sys called time (or doesnt delete but 
+		unloads it so u cant use it anymore)
+8.
+
+
+
+
+
+
+
+
+
+
+
+
+

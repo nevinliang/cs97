@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# script to get the difference from the current and previous directories
+
+git log -p -1

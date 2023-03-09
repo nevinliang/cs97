@@ -1,0 +1,120 @@
+
+cs 97 - dis 1C - week 5
+=======================
+
+logistics
+---------
+
+- 4th assignment / homework
+http://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign4.html
+
+- weekly work log (individual)
+
+keywords
+--------
+  change management, version control,
+  source code management
+  git (one of the tools, most popular tool)
+
+- relevance in software construction and management
+    - why not simply (periodic) auto backup?
+        - local (time machine, rsync, etc.)
+        - cloud (dropbox, icloud)
+
+- need for controlled backups
+  with much richer internal data model that allows to
+    - capture critical additional metadata
+    - attach labels, titles, descriptions, notes, tags
+    - fork into parallel branches
+    - join back branches
+    - hook in programmable scripts
+        - configurable behavior
+    - cryptographic guarantees
+        - immutability
+        - security, reliability
+
+- git concepts (critical 20%)
+    - repository
+        - ".git" directory (marks a repository, root)
+            - houses all the git internal data
+        - content ("tree" of files and directories)
+            - aka working directory or working tree
+        - history ("dag" of "commits")
+    - commit
+        - snapshots a "logical / symbolic" change
+        - id
+            - a hash digest (of commit's data)
+            - e.g. 7f7ebe054af6d831b999d6c2241b9227c4e4e08d
+        - change diff
+            - M (modifications)
+            - A (additions)
+            - D (deletions)
+        - author
+        - time
+        - title, description
+        - parent commit
+            - multiple parents possible
+                - when "branches" "merge"
+            - hence dag (vs tree)
+    - commit refs (named references)
+        - heads (aka branches)
+            - tips/heads of branches (dag leaves)
+            - e.g. master, dev, etv.
+            - info stored in .git/refs/heads/
+            - tracked upstream semantics
+        - tags
+            - need not be a branch tip (dag node)
+            - e.g. v0.1.0
+            - info stored in .git/refs/tags/
+        - HEAD
+            - current branch (working branch)
+            - info stored in ./git/HEAD
+        - remotes
+            - remote as in cloud hosted, non local
+            - cloud branches
+            - info stored in .git/refs/remotes
+            - fetch / pull / push semantics
+    - git cli
+        - interface to interacting with git
+        - several gui alternatives
+        - common commands (covers 80% use cases)
+            - git help / git --help
+            - start a working area
+                - git clone
+                - git init
+            - work on the current change
+                - git add
+                - git mv
+                - git reset
+                - git rm
+            - examine the history and state
+                - git log
+                - git show
+                - git status
+            - grow, mark and tweak your common history
+                - git branch
+                - git checkout
+                - git commit
+                - git diff
+                - git merge
+                - git rebase
+                - git tag
+            - collaborate
+                - git fetch
+                - git pull
+                - git push
+    - github.com
+        - cloud hosted space for git repositories
+            - with a great web UI (vs cli)
+            - public and private
+            - permissions
+                - read, write, fork
+        - additional collaboration facilities
+            - discussion (via github issues)
+            - 
+
+resources
+---------
+
+http://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign4.html
+https://learngitbranching.js.org/

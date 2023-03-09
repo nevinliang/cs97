@@ -1,0 +1,9 @@
+#!/bin/bash
+
+x=$1
+while [ $x -ge 1 ]
+do
+    ./genspelldata $2 $3 $4 | myspell
+    x=$[$x-1]
+done
+

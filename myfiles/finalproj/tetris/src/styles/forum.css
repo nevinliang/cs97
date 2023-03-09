@@ -1,0 +1,111 @@
+/* TO DO:
+  -stylize forum page to look less barbaric lol
+*/
+
+.forum-page {
+  width: 100%;
+  background-color: #c8d8e7;
+}
+
+.forum-manager {
+  background-color: #214a96;
+  padding: 5pt;
+  position: fixed;
+  top: 7%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 35pt;
+}
+
+.create-thread-name-input {
+  display: flexbox;
+  margin: 0;
+  width: 20%;
+  height: 25pt;
+  resize: none;
+}
+
+.create-thread-message-input {
+  display: flexbox;
+  margin: 0;
+  width: 20%;
+  height: 25pt;
+  resize: none;
+}
+
+.create-thread-message-input:focus {
+  height: 100pt;
+}
+
+.create-thread-btn {
+  display: flexbox;
+  height: 25pt;
+  font-size: 15pt;
+  font-weight: bold;
+}
+
+.sort-by-likes-btn {
+  display: flexbox;
+  height: 25pt;
+  font-size: 15pt;
+  font-weight: bold;
+}
+
+.sort-by-new-btn {
+  display: flexbox;
+  height: 25pt;
+  font-size: 15pt;
+  font-weight: bold;
+}
+
+.thread {
+  width: 80%;
+  margin: 10pt auto;
+  border-radius: 3pt;
+  border: 1px solid #acb2b8;
+  background-color: #f2f9ff;
+  padding: 0 5pt 0 5pt;
+  text-align: left;
+}
+.thread-name {
+  margin: 0 10pt 0 10pt;
+  font-size: 15pt;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.comment {
+  width: 90%;
+  border-left: 3pt solid #214a96;
+  border-radius: 0 5pt 5pt 0;
+  padding: 0 5pt 0 5pt;
+  margin: 5pt auto;
+  background-color: white;
+  text-align: left;
+}
+.comment-name {
+  display: inline-block;
+  font-weight: bold;
+  margin: 0 5pt 0 0;
+}
+.comment-message {
+  padding-left: 1%;
+}
+
+.reply-button {
+  margin: 0 5pt 0 5pt;
+}
+
+.like-button {
+  margin: 0 5pt 0 5pt;
+}
+
+.likes {
+  display: inline-block;
+}
+
+.dev-button {
+  visibility: hidden;
+}

@@ -1,0 +1,65 @@
+CS 97 - Dis 1C - Week 0
+
+
+ANNOUNCEMENTS
+
+    - communication channels
+        - email
+        - ccle
+        - piazza
+
+    - lectures
+        - zoom; recorded
+        - attending live highly recommended; helps a lot with motivation
+        - also recommended is taking quick/short notes
+
+    - assignments
+        - read thoroughly as soon as they are released
+            - just this alone will make a good start
+            - applies to most (if not all) classes; not just CS
+        - use discussion sections and office hours
+            - walkthrough; guided practice; lecture material review
+            - clear doubts; troubleshoot issues
+        - liberally use piazza; prefer public posts for max reuse
+        - judiciously email assistance staff (TAs, LAs) directly
+            - although, please don't feel discouraged; we don't bite 🙂
+            - email addresses will be made available across ccle and piazza
+    
+    - discussion sections
+        - zoom; recorded
+        - free to attend any
+
+    - group project
+        - please start forming your groups
+        - http://web.cs.ucla.edu/classes/fall20/cs97-1/project.html
+        - more details as we go along
+
+    - tests
+        - midterm(s) (how many? tbd)
+        - final
+        - administered over zoom, ccle, gradescope, etc
+        - more details as we go along
+        - most likely, timed and open everything (except collaboration)
+
+
+RESOURCES
+
+    - http://web.cs.ucla.edu/classes/fall20/cs97-1/
+        - http://web.cs.ucla.edu/classes/fall20/cs97-1/syllabus.html
+        - http://web.cs.ucla.edu/classes/fall20/cs97-1/grading.html
+        - http://web.cs.ucla.edu/classes/fall20/cs97-1/assign.html
+            - http://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign1.html
+        - http://web.cs.ucla.edu/classes/fall20/cs97-1/project.html
+
+    - https://piazza.com/ucla/fall2020/cs97
+
+    - https://repl.it/
+        - https://repl.it/languages/bash
+        - https://repl.it/languages/elisp
+
+    - https://missing.csail.mit.edu/
+
+    - https://learnxinyminutes.com/
+        - https://learnxinyminutes.com/docs/bash/
+        - https://learnxinyminutes.com/docs/emacs/
+

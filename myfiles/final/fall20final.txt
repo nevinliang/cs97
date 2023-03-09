@@ -1,0 +1,209 @@
+1. 
+
+ls -Liddil: combination of ls -L, ls -i, ls -d, and ls -l.
+
+ls -L: The -L flag dereferences a symbolic link and therefore shows information about the original file the symbolic link references rather than the symbolic link itself.
+
+ls -l: more detailed output format (long listing format)
+
+ls -i: prints the inode of the file, which is basically the index number or identifier number
+
+ls -d: if either A or B is a folder/symbolic link to a folder, it looks at the folder itself and the details about the folder rather than what is inside the folder. 
+
+Now, when we combine these commands together: ls -Liddil will take two inputs A and B, and compare if they name the literal same file. The L and i flag both help in this process because the L dereferences and the i compares the inodes which is a way of telling whether two files are the same (symbolically linked). Note that ls -Liddil is the same as ls -Lldi. 
+
+If we were to use only i to test, and not L, if A were a file and B were a symbolic link to the file, the i nodes would be different and therefore it would say that these were different files, when they are not. If we were to omit d, then if one of them is a folder, it wouldn't check the details of the folder itself, and would lead to a wrong output.
+
+=============================================================================
+
+2.
+
+#!/bin/bash
+
+file1=$1
+file2=$2
+
+file1dets=$(ls -Liddil $file1)
+line1=$(echo file1dets | tr file1 '' > line1)
+
+
+file2dets=$(ls -Liddil $file2)
+line2=$(echo file2dets | tr file2 '' > line2)
+
+if ["$line1" = "$line2"]
+then
+    true
+else
+    false
+fi
+
+=============================================================================
+
+3. 
+
+In my code above, I create two variables called file1dets and file2dets using the Liddil command on the two input files. If I were to modify a file that a symbolic link points to BEFORE I create these two variables, then the symbolic link will become dangling, and so my shell script will return false. If I were to modify the file after those two lines of script, it would print out the same result as if I ran the script before I modified the file.
+
+=============================================================================
+
+4.
+
+Git splits the 40-character SHA-1 text into two parts of length 2 and 38 characters for 2 reasons. The first reason can be considered if we were to try and use a hash split into 1 and 39. Since each character is from 0-F, there would be a maximum of 16 subfolders in the objects folder. If there are 16 subfolders, and let's say 5 million objects, each subfolder would have 312,500 files. This is too much, as most file systems cannot store this many files in a single folder. Looking up the storage size of file systems such as FAT32, they can store 65536 32bit entries, so a subfolder with 312k files is way too much. However, if we were to use 2 and 38, a 5 million object git repository would only need about 19,500 files per folder, which is in range of what most file systems can store. This begs the question, why can't we use a split of 20-20 then, if we want to make the number of files per folder smaller. 
+
+This has to partially do with speed, or our second reason. 20-20 means that if we have enough objects with varying hash codes, we theoretically can have up to 16^20 different folders in our objects directory. First of all, this is pretty much impossible with regards to what a file system can handle. But even if we made the number of folders not that much (by limiting the number of objects or if we miraculously had many objects with the same first 20 characters), the time it takes to loop through all of these folders would be a lot. Git loops through the folder linearly to find which one it should go into, so this takes a long time if there are a lot of folders. With 3-37 split, it has to run through 4096 or 16^3 folders. There is no need to use up this much time as we saw from the previous part that a 2-38 (which has 256 folders) works perfectly fine for even large git repositories that have 5 million objects.
+
+=============================================================================
+
+7.
+
+Running Program under GDB: In C++, when an integer overflows, it just loops around to negative values, and does not throw a warning because negative values are valid. Thus, running the program under GDB would cause nothing to be detected. Detection would be really bad and Prevention would be difficult because there would be no way to see GDB throw something. Both of these would have to be written into the source code itself, as if statements or such.
+
+gcc -fsanitize=undefined: From what I can look up, -fsanitize=undefined does all checks other than "float-divide-by-zero, unsigned-integer-overflow, implicit-conversion, local-bounds and the nullability-* group of checks." I notice that the fsanitize=signed-integer-overflow is not one of them. Thus, it does check for signed integer overflow, so this will catch the regular integer overflow error.
+
+Emacs Lisp: From the docs (https://ftp.gnu.org/old-gnu/Manuals/elisp-manual-20-2.5/html_node/elisp_62.html), it says that Emacs Lisp does not check for overflow. Rather, "(1+ 134217727) may evaluate to -134217728." This means that there would be no error thrown because -134217728 is a valid value. Therefore, it will be the same as in C/C++, where you have to check yourself using if statements to see if there is overflow, and to do something about it, like print out an error message.
+
+JavaScript: JavaScript has this weird thing called Infinity where if a number is too big it just turns it into Infinity. Looking at the docs for JavaScript, there are a few properties like "Any positive value, including POSITIVE_INFINITY, multiplied by POSITIVE_INFINITY is POSITIVE_INFINITY" (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/POSITIVE_INFINITY). This means that you can't really use Infinity for future calculations, but it's really easy to write software to check if there was overflow. You would just check for Infinity. However, I believe that no errors are thrown because Infinity is a valid property in JavaScript. Detection and Prevention would be writing software before doing a calculation to see if it would overflow, and to print out a custom error message or such to detect it.
+
+Python: Python is an interesting language in that for integers, there is seemingly no upper bound on the value. (I think its a different story for floats, but I'm not sure). I saw in Python that it will raise a MemoryError before it raises an integer OverflowError, so I guess there is no need to prevent Integer Overflow Errors in Python. There is no need to Detect or Prevent integer overflow in Python.
+
+gcc -Wall -Wextra: I see that -Wall doesn't have anything on integer overflow, but Wextra has this really cool thing on -Wtype-limits, which basically warns if a comparison is always true or false due to the limited range of data type. However, this isn't the same as checking if there is overflow for integers, like if you multiply two big ones together, so I don't think it will help.
+
+Summary:
+python: no need to check
+javascript: you get the infinity property which is nice, but also means no warnings thrown. need to write software to throw it yourself.
+emacslisp: just like c/c++ in that it silently becomes negative. need to write software to throw it yourself.
+fsanitize=undefined: throws warning
+wall and wextra: no warnings thrown, need to write software to check.
+
+=============================================================================
+
+5.
+Deduplication: Eliminating duplicate or redundant information
+Compression: Making files smaller in size through compression techniques
+Encryption: Encrypting files so that you need special keys to decrypt (not everyone can see)
+
+Analysis on Git: 
+Git is powerful because it uses Deduplication. There is only 1 version of each file stored, and the rest is stored in diffs. This is really helpful because if there was redundant information stored, this would be absolutely horrible for the memory management. Every single commit would create a new copy of the original file, even if the commit changed a single letter in the entire (possibly thousand) lines of code.
+Compression: Git uses compression as well, and it compresses object files quite a bit in order to keep them small. Git is optimized for storing text data, and compressing text is really useful. I read somewhere that it can compress it up to 50% of its original size? When a file is compressed it uses less space and therefore you can store more of it. In addition, if the total size is less, uploading and downloading will be much faster. 
+Encryption: I don't think that Git is encrypted. At least from what I have seen looking through the .git folder, the SHA-1 hashes are just hash codes for the objects. It doesn't count as encryption because there is no "key" needed to decrypt. Anyone can clone a git repository, and look through it to see all changes with no password or key needed.
+
+=============================================================================
+
+9.
+
+PART 1: Shell script
+
+#!/bin/bash
+
+mkdir git-repo
+cd git-repo
+git init
+
+touch file1
+git add file1
+git commit -m "added file1"
+
+# currently on master branch btw
+
+git branch otherbranch
+git checkout otherbranch
+
+# now on otherbranch branch
+
+touch file2
+git add file2
+
+# DONT COMMIT THIS FILE THOUGH 
+
+git checkout master
+
+# back on master branch 
+
+git merge otherbranch # will fail
+git merge --continue # will force it.
+
+Part 2: Explanation of resulting state
+
+The resulting state is one where the merge has been forced. The uncommitted changes are lost, and especially if the changes were further modified after the merge was started, even git merge --abort might not be able to reconstruct the pre-merge changes. That's why there is a big warning. It is because it is dangerous.
+
+=============================================================================
+
+10.
+
+The rebase command integrates changes in one branch to another. Rebase is different from merge because it is rewriting the commit history so that the commits now form a straight linear succession. There is no need to warn because the commit history has changed, so if there were unsaved commits or if there were actual saved commits, no matter what it rewrites the entire history.
+
+=============================================================================
+
+8.
+
+1. It doesn’t support multithreaded applications, which makes many apps hard to scale.
+
+Valid Criticism: Node.js does not support multithreaded applications. Thus, if an application is large, throughput goes down. Too many requests at once will cause the application to become very very slow. This is why apps might be hard to scale. When your user base reaches the millions, you might have too many requests.
+
+Defense: Node.js has non-blocking I/O that is asynchronous, which basically means that it can run other processes while it waits for a long one to finish. 
+
+Application: This applies to our program because we had many requests at once, especially because ours was a game, every keystroke had to be recorded and processed.
+
+2. It’s tied closely to Google’s V8 JavaScript engine, and so is not portable to other platforms.
+
+Valid Criticism: Node.js is only able to be interpreted on the Google V8 Javascript engine, and is not portable. This is semi-annoying for developers who want to use Node.js elsewhere.
+
+Defense: V8 is supported on many different platforms and ISA's so most the platforms that most people use can run it.
+
+Application: I think most of us used macOS so it wasn't really an issue. I can see that if Node.js wasn't supported on some platforms and someone in our group had a machine that wasnt supported it would cause a big problem.
+
+3. It’s too low level; if you want to build a real app you must write everything nearly from scratch, or pull in other peoples’ code like crazy.
+
+Valid Criticism: Writing everything from scratch is unreasonable from the point of view of a developer, who's main goal isnt to create the tools needed to build the app, but rather incorporate tools to make the app do something useful and innovative.
+
+Defense: There are things that make pulling in other peoples' code much easier, I think one of them is called NPM.
+
+Application: If I remember correclty we used NPM so that helped us save a lot of time with libraries.
+
+4. JSX is too complicated and its learning curve is too steep, compared to other approaches.
+
+Valid Criticism: The steep learning curve is definitely a problem for developers, and compared to Swift or other languages that are much more intuitive, JSX is not worth it to learn. 
+
+Defense: JSX is one language. One language is arguably easier to keep track of than multiple languages at once. This is beneficial for those that like to be immersed in one ecosystem and learn more about it rather than spread themselves too thin across multiple. 
+
+Application: I myself had a very very hard time learning JSX so I understand what it feels like.
+
+5. Node.js relies too much on callbacks. "callback hell"
+
+Valid Criticism: There might be a possibility where callbacks are nested in other callbacks and this makes development confusing and frustrating. It also makes code ugly and unreadable sometimes.
+
+Defense: There is a way to prevent callbackhell lol if you read callbackhell.com it teaches you to keep your code shallow and other good tactics.
+
+Application: Did not happen in our group because we only had one or two layers.
+
+=============================================================================
+
+11.
+
+C is a compiled language while Node.js/React is an interpreted language. A compiled language means you can compile it once and then quickly run the executable whenever you need to. On the other hand, an interpreted language essentially runs each line of code again and again everytime the executable is ran. In the case of Emacs, using C as its core would be better because Emacs only needs to be compiled once. It can be ran many times but there will not be any changes to it in the midst of running. The biggest obstacle to making it work would be the speed at which you can development in, if Emacs were to be implemented using Node.js/React.
+
+=============================================================================
+
+12.
+
+If I were to implement Emacs in Node.js/React, it can be optimized to run Node.js/React. That is pretty much the only significant advantage to reimplementing Emacs though, and this only applies if you were to develop Node.js/React in Emacs. Other development like standard coding practice in C and Python would be much more strange and pointless to run it on Node.js/React.
+
+=============================================================================
+
+6.
+
+fseek: Sets the position indicator associated with the stream to a new position.
+ftell: Returns the current value of the position indicator of the stream.
+lseek: lseek - reposition read/write file offset
+
+(I dont think it is safe to use low-level system calls like lseek along with standard library file operations like fread and fseek)
+
+How to modify randall:
+
+IF randall crashes, we can run:
+
+fseek (output, 0, SEEK_END);
+size=ftell (output);
+
+on the output file to get the size, in bytes of what is left. Then, if the value is less than what you want it to be, like if randall 100000000000 >>output is called and the output of `size` is less than 100000000000, we can continue on with `100000000000 - size` bytes. (If you want to only do this when there was a crash, you can test if the file is still open or not). 
+
+Trouble: if the modified randall outputs to a pipe to some other program, instead of outputting to regular file, then all the data before the crash might be lost. Thus, we cannot continue with `100000000000 - size` bytes and we have to start from the beginning.

@@ -1,0 +1,170 @@
+.tetris-page {
+    width: 100%;
+}
+
+.instructions-page {
+    width: 25%;
+}
+
+.tetris-screen {
+    width: 50%;
+    align-content: center;
+}
+
+.tetris-container {
+    width: 100%;
+}
+
+.tetris-game-container {
+    width:70%;
+}
+
+.tetris-screen-display {
+    width: 60%;
+    margin-left: 30%;
+    line-height: 24px;
+    border: 2px;
+    border-style: solid;
+    background-color: black;
+    user-select: none;
+}
+
+.tetris-screen-display td {
+    width: 10%;
+}
+
+.hold-piece-container {
+    width:30%;
+}
+
+.hold-piece-descriptor {
+    text-align: left;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.hold-piece-display {
+    width: 50%;
+    line-height: 25px;
+    border: 1px;
+    border-style: solid;
+    background-color: black;
+    color: black;
+    user-select: none;
+}
+
+.hold-piece-display td {
+    background-color: gray;
+    color: gray;
+}
+
+.next-piece-descriptor {
+    text-align: left;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.next-piece-display {
+    width: 50%;
+    line-height: 25px;
+    border: 1px;
+    border-bottom: 0.5px;
+    border-top: 0.5px;
+    border-style: solid;
+    background-color: black;
+    color: black;
+    user-select: none;
+}
+
+.next-piece-display td {
+    background-color: gray;
+    color: gray;
+}
+
+#ghost {
+    background-color: #c4c4c4;
+    color: #c4c4c4;
+    border-color: #c4c4c4;
+}
+
+#gray {
+    background-color: gray;
+    color: gray;
+}
+
+#yellow {
+    background-color: yellow;
+    color: yellow;
+    border-color: yellow;
+}
+
+#green {
+    background-color: lime;
+    color: lime;
+    border-color: lime;
+}
+
+#red {
+    background-color: red;
+    color: red;
+    border-color: red;
+}
+
+#purple {
+    background-color: blueviolet;
+    color: blueviolet;
+    border-color: blueviolet;
+}
+
+#orange {
+    background-color: orange;
+    color: orange;
+    border-color: orange;
+}
+
+#blue {
+    background-color: blue;
+    color: blue;
+    border-color: blue;
+}
+
+#cyan {
+    background-color: cyan;
+    color: cyan;
+    border-color: cyan;
+}
+
+.next-pieces {
+    display: flex;
+}
+
+.tetris-leaderboard {
+    width: 100%;
+    background-color: bisque;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+.leaderboard-heading-1 {
+    font-size: 20pt;
+    font-weight: 900;
+}
+
+.leaderboard-heading-2 {
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+.leaderboard-ranking {
+    font-size: 12;
+    font-weight: 500;
+    text-align: left;
+}
+
+.leaderboard-ranking td {
+    padding-left: 5%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+}

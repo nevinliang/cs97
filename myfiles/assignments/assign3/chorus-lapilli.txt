@@ -1,0 +1,38 @@
+starting from where we left off in tic-tac-toe...
+first thing we need to do is implement the rules in handleClick
+because everything is the same otherwise.
+a few things are different in handleClick:
+  - 4th piece isnt allowed
+    - need to move 3rd piece 
+      - need to be able to select a piece
+      - and then move it
+        - need a check for adjacency
+    - check if piece in center exists
+      - if it does force moving that one
+
+how to do 4th piece:
+  - if move # for X >=6
+  - if move # for O >=7
+
+how to move the piece for X's turn:
+  - force selection of an X, turn it to blank
+  - next move, 2nd move aka. force selection of 
+    blank square with adjacency to original i
+  - need to store the previous i. always
+  - if previous i was blank, then we are on move 2/2
+  - if select same square aka i == previ, then its an undo move
+    aka put the X back, and then have it still be X's turn
+  - otherwise change turns again
+  - if center X exists, force movement of that piece to an empty one
+    - unless there is a winning move. 
+    - maybe first let the person click once, and if he can't find
+      a winning move, then just reject moves until he undos
+
+  - double click still works even though that piece is the only
+    option
+
+Notes:
+
+changing turns: xIsNext: !this.state.xIsNext
+element of board: squares[i] where i: 0-8
+

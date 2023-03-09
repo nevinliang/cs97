@@ -1,0 +1,215 @@
+CS 97 - DIS 1C - WEEK 7
+=======================
+
+ASSIGNMENT 5 (contd...)
+------------
+
+  - due 22nd Nov, Sunday
+  - lnxsrv09 (SEASnet) recommended, with /usr/local/cs/bin first in $PATH
+  - big picture clarification (code refactoring)
+    - better organization
+      - splitting into separate .c and .h files
+      - separation of concerns
+      - modules / interfaces / contracts
+      - code reuse
+      - better and tighter abstractions
+      - readability
+      - ease of update (both implementation and interface)
+    - better customization / flexibility
+      - accepting cli arguments
+        - optional (-i, -o)
+            [-i rdrand] : use _rdrand64_step hardware instruction
+            [-i mrand48_r] : use mrand48_r instead
+            [-i /F] : use /F as randomness source for software based generation
+            [-o N] : batch in blocks of N KiBytes
+        - non-optional / positional (nBytes)
+    - better performance, thread / parallelism safety
+      - use direct hardware instruction instead of software counterpart
+        - _rdrand64_step
+        - fewer cpu cycles consumed
+      - pruning number of write sys calls
+        - via batching I/O
+        - side note: OS "opaquely" batches I/O ALL THE TIME
+      - using thread safe(r) alternatives
+        - mrand48_r (and its other _r siblings) are re-enterable; thus thread safe(r)
+  - small picture clarifications
+    - example invocations, cases
+      ./randall 5134                       <-- should output 5134 bytes, using _rdrand64_step (fallback sw based), in 1 byte batches
+      ./randall -i rdrand 5134             <-- should output 5134 bytes, using _rdrand64_step (fallback fail w/ error), in 1 byte batches
+      ./randall -i mrand48_r  5134         <-- should output 5134 bytes, using mrand48_r, in 1 byte batches
+      ./randall -i mrand48_r -o 1  5134    <-- should output 5134 bytes, using mrand48_r, in 1 * 1000 bytes batches
+                                               total 6 batches; 6th batch of 134 bytes
+    - if curious, use "strace" to verify number of write() calls
+  - more..
+    - attend LA session later to(day/night/morrow)
+      - details on Piazza --> @205 [pinned post]
+    - spam Piazza, TAs, LAs
+
+
+ASSIGNMENT 6
+------------
+
+  - due week 10 (Monday, 7th Dec)
+  - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign6.html
+    - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign.html
+  - Git repository organization (git internals)
+    - commits
+      - commit aliases
+        - refs/HEAD
+        - refs/heads/master
+        - refs/heads/*
+      - commit objects
+        - objects/dd/9515b11ebcab015a8a91b494097d06827df5a5    <-- zlib compressed data
+        - objects/<1st-2-digits>/<remaining-38-digits>
+  - development environment
+    - git, python3  <-- that's it
+      - NO SEASnet / lnxsrv09 restriction this time!
+    - I'll once again recommend https://repl.it
+      - https://repl.it/l/python3
+  - tasks : find .git directory; list branches; build commit DAG; print commit DAG (topological order)
+  - extremely helpful test suite
+    - https://github.com/Rustinante/topo-ordered-commits-test-suite
+    - contains a nice set of test repositories
+    - easy to setup and explore
+
+  - recall python3 mechanics
+    ------------------------
+    - structure    : functions / classes / scripts / modules / packages    (https://docs.python.org/3/tutorial/)
+    - data types   : strings, tuples, lists, dicts, sets    (https://docs.python.org/3/library/datatypes.html)
+    - control flow : if/else, loops, iterables    (https://docs.python.org/3/tutorial/controlflow.html)
+    - built-ins / standard library    (https://docs.python.org/3/library/)
+      - len(), filter(), map(), sorted()
+      - import os, sys, zlib
+
+  - task 1
+    ------
+    - finding .git directory
+      - similar to how all "git ..." commands first find .git directory
+      - by looking for .git in the current directory, fallback to parent directory, so on...
+      - discovery process should only go up, and never descend into a child directory
+      - can keep going till / (root directory)
+      - failure -> output ‘Not inside a Git repository’ to standard error and exit with status 1
+    - relevant python3
+      - import os       : https://docs.python.org/3/library/os.html
+      - import sys      : https://docs.python.org/3/library/sys.html
+      - os.getcwd()     : https://docs.python.org/3/library/os.html#os.getcwd
+      - os.path.isdir() : https://docs.python.org/3/library/os.path.html#os.path.isdir
+      - print()         : https://docs.python.org/3/library/functions.html#print
+      - sys.stderr      : https://docs.python.org/3.1/library/sys.html#sys.stderr
+      - sys.exit()      : https://docs.python.org/3.1/library/sys.html#sys.exit
+
+  - task 2
+    ------
+    - read important git internal references
+      - Git Objects    : https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+      - Git References : https://git-scm.com/book/en/v2/Git-Internals-Git-References
+    - listing branches
+      - branches map to refs/heads/**/*
+      - special case: branches with / in their name
+        - release/v1.2.3  <-- refs/heads/release/v1.2.3
+        - release/v1.3.5  <-- refs/heads/release/v1.3.5
+        - dev/feat-xyz    <-- refs/heads/dev/feat-xyz
+    - relevant python3
+      - os.listdir()        : https://docs.python.org/3/library/os.html#os.listdir
+      - os.walk()           : https://docs.python.org/3/library/os.html#os.walk
+      - os.DisEntry         : https://docs.python.org/3/library/os.html#os.DirEntry
+      - os.DirEntry.is_dir  : https://docs.python.org/3/library/os.html#os.DirEntry.is_dir
+      - os.DirEntry.is_file : https://docs.python.org/3/library/os.html#os.DirEntry.is_file
+
+  - task 3
+    ------
+    - building commit DAG
+      - recall commits are the building blocks of a git repository
+        - each commit
+          - id : sha1 hash hex digest <-- length 40
+          - parent
+          - title, message, author, timestamp, etc
+        - commits map to objects/[0-f]{2}/[0-f]{38}  <-- zlib compressed data files
+      - relevant python3
+        - zlib                : https://docs.python.org/3/library/zlib.html
+        - reading git objects : https://matthew-brett.github.io/curious-git/reading_git_objects.html
+      - data structure for commit object
+          class CommitNode:
+            def __init__(self, commit_hash):
+              """
+              :type commit_hash: str
+              """
+              self.commit_hash = commit_hash
+              self.parents = set()
+              self.children = set()
+      - data structure for commit DAG
+        - _________   <-- fill blank
+      - algo for building the commit DAG
+        - for each branch
+          - starting from the branch head; perform depth first search traversal
+            - first read branch head commit object
+            - then read parent commit object (if multiple parents, depth first semantics)
+            - establish parent child relationship
+            - leaf node reached when there's no further parent (a.k.a root_commit)
+
+  - task 4
+    ------
+
+    - topological ordering of the commit DAG
+      - https://en.wikipedia.org/wiki/Topological_sorting
+      - important and ubiqutious ordering for directed graphs, particularly DAGs
+      - keeps directional relationships intact; not a single violation allowed
+      - ALWAYS exists at least one such ordering for DAGs
+      - more than one can exist
+      - e.g. c0 -> c1 -> c2 (branch-1)
+                    \
+                      -> c3 -> c4 (branch-2, branch-5)
+                            \
+                              -> c5 (branch-3)
+
+        - (c5, c4, c3, c2, c1, c0)    <-- parents always come after their children
+        - (c2, c5, c4, c3, c1, c0)    <-- parents always come after their children
+
+  - task 5
+    ------
+
+    - (one column) printing topological sort
+      - use commit ids / hash digest
+      - "=" for "sticky ends"
+    - (c5, c4, c3, c2, c1, c0)
+
+      h5 branch-3
+      h4 branch-2 branch-5
+      h3
+      h1=
+                        <-- "sticky ends" will have blanks                   c0 -> c1 -> c2 (branch-1)
+      =                                                                              \
+      h2 branch-1                                                                     -> c3 -> c4 (branch-2, branch-5)
+      h1                                                                                      \
+      h0                                                                                       -> c5 (branch-3)
+
+
+    - (c2, c5, c4, c3, c1, c0)
+
+      h2 branch-1
+      h1=
+                        <-- "sticky ends" will have blanks
+      =
+      h5 branch-3
+      h4 branch-2 branch-5
+      h3
+      h1
+      h0
+
+REFERENCES
+-----------
+
+  - Assignment 6 (Git repository organization)
+    - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign6.html
+    - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign.html
+
+  - Test suite
+    - https://github.com/Rustinante/topo-ordered-commits-test-suite
+
+  - Git Internals
+    - https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+    - https://git-scm.com/book/en/v2/Git-Internals-Git-References
+    - https://matthew-brett.github.io/curious-git/curious_details.html
+
+  - Topological ordering / sorting
+    - https://en.wikipedia.org/wiki/Topological_sorting

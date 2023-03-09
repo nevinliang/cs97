@@ -1,0 +1,93 @@
+cs 97 - dis 1C - week 6
+=======================
+
+ASSIGNMENT 5
+------------
+
+  - due on 22nd Nov, Sunday
+  - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign5.html
+  - Low-level refactoring and performance
+  - development environment
+    - C, gcc, make
+    - use SEASnet machines, with /usr/local/cs/bin first in $PATH
+  - random byte-stream generation
+    - i.e. generating a stream of N bytes, with each byte "random"
+        - ./randall 100 | wc -c    # should print 100
+  - starter code provided with the assignment
+    - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign/randall-assignment.txz
+
+  - Task 1
+    ------
+    - understand starter code, including Makefile
+    - execute "make" to build / compile
+    - perform some tests manually; helps in understanding
+    - add a simple "make check" definition in Makefile
+      - e.g. output is the correct length
+
+  - Task 2
+    ------
+    - split up randall.c
+      - options.c, options.h
+      - output.c, output.h
+      - rand64-hw.c, rand64-hw.h
+      - rand64-sw.c, rand64-sw.h
+      - randall.c
+    - possible issues
+      - static functions
+        - remove static keyword; not critical to this assignment      
+    - update Makefile accordingly
+    - use "make test" to verify
+      - TDD makes testing code refactoring really straightforward
+        - and that's only just one of the benefits of TDD
+
+  - Task 3
+    ------
+    - add new options as per spec
+      - "-i rdrand | mrand48_r | /F"
+        - _rdrand64_step
+          - int _rdrand64_step(unsigned __int64 *random_val);
+        - mrand48_r : r stands for re-entrant; thread-safe
+          - int mrand48_r (struct drand48_data *buffer, long int *result)
+            - https://linux.die.net/man/3/mrand48_r
+          - int srand48_r(long int seedval, struct drand48_data *buffer)
+            - https://linux.die.net/man/3/srand48_r
+          - use time(NULL) for seedval
+            - https://pubs.opengroup.org/onlinepubs/9699919799/functions/time.html
+      - "-o stdio | N"
+        - write N * 1000 bytes at a time
+      - use getopt() for this
+        - getopt() is used when only short options/flags
+        - otherwise, getopt_long()
+        - https://pubs.opengroup.org/onlinepubs/9699919799/functions/getopt.html
+        - https://stackoverflow.com/questions/18079340/using-getopt-in-c-with-non-option-arguments
+    - update Makefile accordingly
+
+
+REFERENCES
+-----------
+
+  - Assignment 5 (Low-level refactoring and performance)
+    - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign5.html
+    - https://web.cs.ucla.edu/classes/fall20/cs97-1/assign.html
+
+  - make (GNU Make)
+    - https://www.gnu.org/software/make/manual/html_node/index.html
+    - https://learnxinyminutes.com/docs/make/
+
+  - gcc (GNU Compiler Collection) options/flags
+    - https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+    - https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+    - https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html
+    - https://gcc.gnu.org/onlinedocs/gcc-10.1.0/gcc/Static-Analyzer-Options.html
+    - https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
+    - https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
+
+  - gdb (GNU Project Debugger)
+    - https://www.gnu.org/software/gdb/
+    - https://www.gnu.org/software/gdb/documentation/
+    - https://sourceware.org/gdb/download/onlinedocs/gdb/
+
+  - valgrind (runtime/dynamic analysis tool)
+    - https://valgrind.org/docs/manual/QuickStart.html
+    - https://valgrind.org/docs/manual/index.html
+    - https://valgrind.org/docs/manual/manual.html

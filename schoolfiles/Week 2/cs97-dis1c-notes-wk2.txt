@@ -1,0 +1,77 @@
+CS 97 - Dis 1C - Week 2
+
+
+ANNOUNCEMENTS
+    - assignment 2 is out
+        - emacs lisp and python
+
+EMACS LISP
+    - high level scripting; application scripting
+    - dynamic and interpreted
+    - one of several lisp flavors / implementations
+    - looks and feels weird because of behind-the-scene simplicity
+    - parenthesis heavy; important to keep them balanced and indented
+    - functions are the bread and butter
+        - call functions, pass functions, define new functions
+    - lists are another bread and butter
+    - variables, values, symbols
+    - strings, numbers, boolean, nil
+    - let and set constructs
+    - local and global variables
+    - stuff relevant to assignment 2
+        - what-line
+        - count-lines
+        - point-min
+        - point-max
+    - simple conditionals, like if-then-else
+    - expressions, like arithmetic
+  
+PYTHON
+    - highly versatile and ubiquitous
+        - alternative to shell scripting for system/os commands
+        - data science, machine learning
+        - web: applications, servers
+    - most common implementation written in C
+        - but also implemented in java, python (itself)
+    - python repl
+        - has decent documentation for most built-ins
+    - variables, values
+    - data types
+        - numbers, strings
+        - lists, tuples, dictionaries
+        - functions, methods
+        - classes
+        - modules, packages
+    - loops, iterations
+    - os module
+        - interacting with the environment
+            - path, etc
+        - interacting with the file system
+            - list files, directories
+    - sys module
+        - argc, argv
+        - stdin, stdout, stderr
+    - argparse module
+        - for easily implementing conventional cli argument parsing
+            - options (short name, long name)
+                - value
+                - switches
+            - positional
+                - simple standard arguments
+        - typically used like
+            - initialize
+            - configure
+            - parse
+    - random module
+        - choice()
+        - shuffle()
+        - sample()
+    
+REFERENCES
+    - http://web.cs.ucla.edu/classes/fall20/cs97-1/assign/assign2.html
+    - https://learnxinyminutes.com/docs/elisp/
+    - https://www.gnu.org/software/emacs/manual/html_node/eintr/
+    - https://www.gnu.org/software/emacs/manual/elisp.html
+    - https://learnxinyminutes.com/docs/python/
+    - https://docs.python.org/3/library/argparse.html
+    - https://docs.python.org/3/howto/argparse.html

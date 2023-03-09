@@ -1,0 +1,185 @@
+#!/bin/bash
+
+x=$1
+while [ $x -ge 1 ]
+do
+    printf "%s " $(sort -R /usr/share/dict/linux.words | head -n 1)
+    x=$[$x-1]
+done
+y=$2
+while [ $y -ge 1 ]
+do
+    printf "%s " $(sort -R $3 | head -n 1)
+    y=$[$y-1]
+done
+printf "\n"
+
+
+
+==================
+
+
+#!/bin/bash
+
+x=$1
+while [ $x -ge 1 ]
+do
+    ./genspelldata $2 $3 $4 | myspell
+    x=$[$x-1]
+done
+
+
+===================
+
+
+#!/bin/bash
+
+if test $1 = '-n'; then
+	# new code that won't be affected if we don't choose the -n flag
+	x=$1
+	while [ $x -ge 1 ]
+	do
+	    ./genspelldata $3 $2 $4 | myspell
+	    x=$[$x-1]
+	done
+else
+	# this executes the old code.
+	x=$1
+	while [ $x -ge 1 ]
+	do
+	    ./genspelldata $2 $3 $4 | myspell
+	    x=$[$x-1]
+	done
+fi
+
+
+=====================
+
+
+
+wget is a command line program to help retrieve web pages. I've used this command multiple times
+to download web pages from the linux terminal, but have only done this for static webpages because
+I assumed it was safe to do so since nothing was running and actively updating the website as it
+was being downloaded. therefore, you might only get a snapshot of the site, not the actual contents you
+might want.
+after combing the docs of wget :) I realized that you cannot use wget on a dynamically generated js. 
+according to google, you need something like Selenium.
+
+
+=====================
+
+
+this function is essentially just a button that when clicked returns the value of the property it has
+the props are like a object that you can pass to the react component
+
+props.onClick is a function
+props.value is a string
+
+
+=====================
+
+class Square extends React.Component {
+  render() {
+    return (
+      <button
+        className="square"
+        onClick={() => this.props.onClick()}
+      >
+        {this.props.value}
+      </button>
+    );
+  }
+}
+
+
+=====================
+
+here are a number of ways to do it:
+1) C-x C-e evaluates the Lisp form right at your cursor and prints the value in the echo area
+2) If you're in emacs-lisp-mode you can do C-M-x to evaluate it before or around the point
+3) You can also litearlly type it in the scratch buffer and do C-j but your cursor would have to 
+be at the end so there's kind of no point haha
+4) You can also put the elisp code in a file and when you're in a different file, you can type
+M-x load-file and Emacs will evaluate everything in the elisp file.
+
+#2 and #4 are most convenient
+
+=======================
+
+add this after the "if backward-only orig-pos" statement
+1.
+(if forward-only
+	orig-pos
+	(progn
+		(skip-chars-backward " \t")
+		(constrain-to-field nil orig-pos t)))
+2.
+have there be an (&optional foward-only) 
+in the first line of the code.
+
+
+=======================
+
+there are actually many ways to do this:
+one, is to bind the variable: 'inhibit-field-text-motion' to a 
+non-nil value. another way is to keep the code the exact same
+and still use constrain-to-field, but make sure the optional 
+argument 'inhibit-capture-property' is non-nil and 'old-pos' has
+a non-nil property of that name. this way, any field boundaries
+are also ignored.
+
+(just a way to keep the original code the same :))
+
+
+========================
+
+Dependencies basically determine whether or not things in an application can run in 
+parallel or not. While the problem says to briefly compare and contrast, I think these two
+are actually very connected and that changing one of them fundamentally alters the qualities an
+effectiveness of the other. If A depends on B and B depends on A, they must run in parallel.
+If A depends on B's output, they cannot run in parallel (to a certain extent). This reminds me of
+pipelining and parallelization in computer architecture as well, even though the topic we are talking
+about right here is software construction.
+
+Dependencies in software result from a number of things, like changes in system, external influences, 
+the size of the project (multiple products or not), as well as how the different parts of the projects
+are integrated together. From a logical point of view, during development, dependencies are widespread.
+And they are a serious problem when it comes to development. Person A working on project A has to depend
+on Person B working on project B without the project B actually even being finished. They have to coordinate
+the end result before they even start working, or else they cannot work in parallel (to speed things up).
+
+During building, it should be fairly straightforward to deal with parallelism (given the adequate preparation 
+put into development). Dependencies are going to be slightly troublesome in this phase, however, as most of the time
+when building big projects, there are multiple "pit stops" you have to make in order to test your product before
+you have finished it with. (building the project all at once is a bad idea haha). coordinating this is hard.
+Parallelism might be disrupted. One person might wait around because he can't go on without the other person's input
+(in case the other person needs to make a drastic change in plans due to an unforseeable bug). Dependencies
+can mess up parallelism. 
+
+(talk about the actual code dependencies)
+Code dependencies are difficult to deal with as well in the building stage. not everything is integrated perfectly
+in the form of .txt files that can be read in and out between programs. sometimes there is more muddy, gritty output
+formats that have to be read as input into a program that is coded in a language that can't even read it!
+
+(on second thought i think build-dependencies might be talking about compile-time dependences)
+READ-HERE:
+in the case of build-time vs run-time dependencies, build-time consists of which packages to build first and 
+which ones depend on which other ones. run-time, which should go in the next section, are things that a package
+require in order to run the code in it.
+
+During installation, program dependencies on each other are HUGE. installation means running an executable file
+and when there are hundred and hundreds of files that have to be run, dependencies in code have to be kept
+crystal clear in order for everything to run smoothly
+
+development dependency in our ongoing class project could be either the algorithm for our tetris game, and the react
+script used to display everything on the webpage, or even the "forum-thing" we have next to our tetris game and 
+the game itself, running at the same time on the same page. the score of our tetris game has to go into the forum
+often, and we will have to incorporate input and output in both codes
+
+build dependency might be the sys library in our python code. We could not have built our code if the compiler could
+not have found the sys library and built it. an example of an installation dependency would be when we typed 
+apt-get install libpython into our linux terminals.
+
+
+
+

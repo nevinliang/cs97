@@ -1,0 +1,21 @@
+Descriptions:
+
+Problem 1-
+	I typed the hash id into the SHA1 ID box, and see 3 windows:
+		the first was the entire history of the repository
+		the second was the details of the merge, including author, committer
+			parents, child, branches, and what it follows.
+		the third window is just for patch comments/tree comments
+
+Problem 2-
+	Graph is on the pdf.
+
+Problem 3-
+	The visual difference between the one I cloned and the one that was in the
+	~eggert/src/gnu/emacs folder in my linux server was that the one in the eggert
+	folder had many, many more branches when run with git branch. The one I cloned
+	and ran only had 1 branch, namely master. That means that we just have the master
+	branch, not any of the branches that Dr. Eggert created. This is probably because
+	he did not publish any of those branches so they are not in the Savannah repository
+	and when we clone it we do not see any of them.
+	
